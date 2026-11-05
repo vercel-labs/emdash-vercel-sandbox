@@ -1,0 +1,41 @@
+{
+  "name": "emdash-vercel-sandbox",
+  "version": "0.1.0-preview.1",
+  "private": true,
+  "type": "module",
+  "description": "Connect the released EmDash desktop app to Vercel Sandbox",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@11.15.0",
+  "engines": {
+    "node": ">=24.14.0"
+  },
+  "bin": {
+    "emdash-sandbox": "bin/emdash-sandbox.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE.md",
+    "licenses"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "pack:smoke": "node scripts/pack-smoke.mjs",
+    "build:release": "node scripts/build-release.mjs",
+    "test:release": "node scripts/test-release.mjs"
+  },
+  "dependencies": {
+    "@vercel/sandbox": "3.3.0",
+    "ssh2": "1.17.0",
+    "ws": "8.18.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vercel-labs/emdash-vercel-sandbox.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vercel-labs/emdash-vercel-sandbox/issues"
+  }
+}

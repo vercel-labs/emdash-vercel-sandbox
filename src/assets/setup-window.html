@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Vercel hosts for EmDash</title>
+  <link rel="stylesheet" href="/setup-window.css">
+  <script type="module" src="/setup-window.mjs"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="page-header">
+      <span class="brand-mark" aria-hidden="true">▲</span>
+      <div><p class="eyebrow">EmDash · Remote development</p><h1>Vercel hosts for EmDash</h1></div>
+      <span id="connection" class="badge">Connecting</span>
+    </header>
+    <p id="intro" class="intro">Sign in once, create a host, and connect from EmDash.</p>
+    <div id="error-panel" class="error-panel" hidden>
+      <p id="error-message" role="alert"></p>
+      <button id="retry" type="button" class="small">Try again</button>
+    </div>
+    <section id="activity" class="activity" aria-live="polite" hidden>
+      <span class="spinner" aria-hidden="true"></span>
+      <div><h2 id="activity-title">Connecting</h2><p id="activity-message"></p>
+        <a id="auth-link" class="button primary" target="_blank" rel="noreferrer" hidden>Continue sign-in <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+    <section id="ready" class="card ready-card" aria-labelledby="ready-heading" hidden>
+      <p class="eyebrow success">Ready to connect</p><h2 id="ready-heading">Your host is ready</h2>
+      <ol class="instructions">
+        <li>In EmDash, open <strong>Settings → Machines → Add SSH Connection</strong>.</li>
+        <li>Choose <strong>SSH config</strong>, select <code id="ready-alias"></code>, save, and connect. Wait for the runtime to become <strong>Healthy</strong>.</li>
+        <li>When EmDash shows <strong>Connected</strong>, your host is connected.</li>
+      </ol>
+      <p class="hint">Already added this host? Select it in EmDash and reconnect. To start coding, add <code>/home/emdash/project</code> as a remote project, then create a Codex task and sign in when prompted.</p>
+      <div class="ready-footer"><p class="muted">You can close setup. Your host keeps running.</p><div class="actions"><button id="another-host" type="button">Back to hosts</button><button id="done" type="button">Done</button></div></div>
+    </section>
+    <div id="layout" class="layout">
+      <section id="setup" class="card" aria-labelledby="setup-heading" hidden>
+        <div class="section-heading"><h2 id="setup-heading">Create a host</h2><button id="back-to-hosts" type="button" class="quiet small" hidden>Back to hosts</button></div>
+        <section id="login-step" aria-labelledby="login-heading">
+          <h3 id="login-heading">Sign in to Vercel</h3>
+          <p class="muted">Use your existing sign-in, or choose another Vercel account. Your Vercel credentials stay on this computer.</p>
+          <div class="actions"><button id="cached-login" type="button" class="primary" hidden>Continue with Vercel</button><button id="browser-login" type="button">Sign in with browser</button></div>
+        </section>
+        <div id="scope-step" hidden>
+          <div class="account-row"><span class="muted">Signed in to Vercel</span><button id="sign-in-again" type="button" class="quiet small">Sign in again</button></div>
+          <div class="field"><label for="team">Team</label><div class="input-row"><select id="team" disabled><option value="">Loading teams…</option></select><button id="reload-teams" type="button" class="small" hidden>Retry</button></div></div>
+          <form id="search-form" class="field" role="search">
+            <label for="search">Project</label><div class="input-row"><input id="search" type="search" placeholder="Search projects by name" autocomplete="off" maxlength="100" disabled><button id="search-button" type="submit" disabled>Search</button></div>
+            <p id="search-hint" class="hint">This project owns your Sandbox and its usage. Choose a team, then search by name.</p>
+          </form>
+          <fieldset id="project-results" hidden><legend class="sr-only">Choose a project</legend><div id="project-list" class="project-list"></div></fieldset>
+          <p id="search-status" class="hint" role="status"></p>
+          <button id="load-more" type="button" class="small" hidden>Load more</button>
+          <form id="create-form" hidden>
+            <div class="field host-field"><label for="host-name">Host name</label><input id="host-name" name="name" required pattern="[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?" maxlength="40" autocomplete="off" spellcheck="false" aria-describedby="name-hint alias-preview"><p id="name-hint" class="hint">1–40 lowercase letters, digits, or hyphens. Start and end with a letter or digit.</p><p id="alias-preview" class="hint"></p></div>
+            <p class="notice">Creates a <strong>45-minute session</strong>. Vercel Sandbox compute and snapshot charges apply.</p>
+            <button id="create" type="submit" class="primary full" disabled>Create host</button>
+          </form>
+        </div>
+      </section>
+      <section id="hosts-card" class="card hosts-card" aria-labelledby="hosts-heading" hidden>
+        <div class="section-heading"><h2 id="hosts-heading">Your hosts</h2><button id="refresh-hosts" class="quiet small" type="button">Refresh</button></div>
+        <p id="hosts-empty" class="muted">Loading hosts…</p><ul id="hosts" class="hosts"></ul>
+        <div class="actions"><button id="new-host" type="button" class="quiet">Create another host</button><button id="close-helper" type="button" class="quiet">Close helper</button></div>
+        <p class="hint host-note">Start resumes compute; charges apply. Stop ends running processes and saves files. Reconnect in EmDash after starting.</p>
+      </section>
+    </div>
+    <footer>Connect through EmDash’s SSH config picker. Closing this window does not stop a host.</footer>
+    <noscript><p class="error-panel">Enable JavaScript, then reopen setup to continue.</p></noscript>
+  </main>
+</body>
+</html>
